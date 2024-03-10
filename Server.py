@@ -50,10 +50,12 @@ with SimpleThreadedXMLRPCServer(('localhost', 8000)) as server:
         data = ET.fromstring(requests.get(url=URL,params=ARGS).content)
 
         URLs = []
-        for itemElement in data.iterfind("Item"):
+        for itemElement in data.findall("Item"):
+            print(itemElement.find("Url").text)
             if itemElement.find("Url"):
                 URLs.append(itemElement.find("Url").text)
 
+        print("URLS:", URLs)
         return URLs
 
     @server.register_function
@@ -75,10 +77,10 @@ with SimpleThreadedXMLRPCServer(('localhost', 8000)) as server:
         noteElement.append(timeElement)
         # URLs = [].__sizeof__
         URLs = wikipediaSearch(args["topic"])
-        if URLs.__sizeof__ != 0:
-            urlElement = ET.Element("timestamp")
-            urlElement.text = URLs
-            noteElement.append(urlElement)
+        urlElement = ET.Element("urls")
+        for url in URLs:
+            urlElement.text.join([url," "])
+        noteElement.append(urlElement)
 
         # Check if topic already exists
         for topic in db.iter():
