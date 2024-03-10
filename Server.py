@@ -17,7 +17,7 @@ database_location = "db.xml"
 database = ET.parse(database_location)
 db = database.getroot() # should this be somewhere else?
 
-# class with python ready made multithreaded server
+# class with python ready made multithreaded server Blended in
 class SimpleThreadedXMLRPCServer(ThreadingMixIn, SimpleXMLRPCServer):
     pass
 

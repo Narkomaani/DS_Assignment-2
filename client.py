@@ -76,18 +76,6 @@ def saveNewTopic():
         pass
     return
 
-def sayHI():
-    return server.sayHi()
-
-def ThreadingTestaus():
-    with ThreadPoolExecutor() as executor:
-        sayHi = {executor.submit(sayHI) for _ in range(4)}
-        for future in as_completed(sayHi):
-            sleep_time = future.result()
-            print(sleep_time)
-
-    return
-
 def listMethods():
     try: 
         print(server.system.listMethods)
@@ -104,7 +92,6 @@ def valikko():
         1) load a topic
         2) save a new note
         3) List every method
-        4) Thread test
         0) exit the program
         """)
     try:
@@ -128,8 +115,6 @@ def main():
             saveNewTopic()
         elif valinta == 3:
             listMethods()
-        elif valinta == 4:
-            ThreadingTestaus()
         elif valinta == 0:
             continue
         else:
