@@ -2,7 +2,7 @@
 # 
 
 This repository includes 2 main files:
-## server.py
+## Server.py
 It operates as a multithreaded server with 2 main functions:
   1. Adding a new note to the server based on given arguments
   2. Loading a topic matching the given argument.
