@@ -9,13 +9,17 @@ server = xmlrpc.client.ServerProxy("http://localhost:8000", allow_none=True)
 # A method to extract xml from server return and print it nicely
 def printTopic(xml):
     topic = ET.fromstring(xml)
-    print("Notes for " + topic.get("name"))
+    print("Notes for '{}'".format(topic.get("name")))
+    print("URLs:", topic.findtext("urls"))
+    
+    # a very ugly loop
     for note in topic.findall("note"):
         print("Note:", note.get("name"))
         for element in note.findall("text"):
-            print(element.text, end="")
-        for element in note.findall("timestamp"):
             print(element.text)
+        for element in note.findall("timestamp"):
+            print("timestamp:",element.text)
+
 
     return
 

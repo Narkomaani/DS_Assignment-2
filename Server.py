@@ -50,10 +50,14 @@ with SimpleThreadedXMLRPCServer(('localhost', 8000)) as server:
         data = ET.fromstring(requests.get(url=URL,params=ARGS).content)
 
         URLs = []
-        for itemElement in data.findall("Item"):
-            print(itemElement.find("Url").text)
-            if itemElement.find("Url"):
-                URLs.append(itemElement.find("Url").text)
+        #  {http://opensearch.org/searchsuggest2}Url
+        
+        # really ugly code
+        for element in data.iter():
+            if element.tag.rfind("Url"):
+                if element.text:
+                    if element.text.find("http") != -1:
+                        URLs.append(element.text)
 
         print("URLS:", URLs)
         return URLs
@@ -72,15 +76,10 @@ with SimpleThreadedXMLRPCServer(('localhost', 8000)) as server:
         textElement.text = args["text"]
         noteElement.append(textElement)
             
-        timeElement = ET.Element("time")
+        timeElement = ET.Element("timestamp")
         timeElement.text = args["time"]
         noteElement.append(timeElement)
-        # URLs = [].__sizeof__
-        URLs = wikipediaSearch(args["topic"])
-        urlElement = ET.Element("urls")
-        for url in URLs:
-            urlElement.text.join([url," "])
-        noteElement.append(urlElement)
+        
 
         # Check if topic already exists
         for topic in db.iter():
@@ -91,6 +90,12 @@ with SimpleThreadedXMLRPCServer(('localhost', 8000)) as server:
         
         topicElement = ET.Element("topic", attrib={"name": args["topic"]})
         topicElement.append(noteElement)
+
+        URLs = wikipediaSearch(args["topic"])
+        urlElement = ET.Element("urls")
+        urlElement.text = str(URLs)
+        topicElement.insert(0,urlElement)
+
         db.append(topicElement)
 
         database.write("db.xml")
