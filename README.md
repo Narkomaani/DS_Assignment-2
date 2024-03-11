@@ -1,5 +1,8 @@
 # Distributed System - Assignment 2 By Jeremias Wahlsten
 # 
+This is my implementation of a RPC connection between a client and a server. The Server also uses Wikipedia's Opensearch API as well.
+The software itself is a note making system in which the client can ask the server for notes on saved topics and create new notes.
+
 
 This repository includes 2 main files:
 ## Server.py
